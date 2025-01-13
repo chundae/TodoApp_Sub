@@ -65,11 +65,11 @@ const styles = StyleSheet.create({
     },
     calendarSection: {
         paddingTop: 65,
-        paddingBottom: 20,
+        paddingBottom: 15,
         paddingHorizontal: 20,
     },
     calendar: {
-        height: 350, // 캘린더 높이
+        height: 340, // 캘린더 높이
         borderBottomWidth: 2,
         borderBottomColor: "rgb(236, 236, 236)",
     },

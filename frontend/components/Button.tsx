@@ -26,10 +26,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     button_primary: {
-        backgroundColor: '#007BFF'
+        backgroundColor: '#74AFD1'
     },
     button_negative: {
         backgroundColor: '#6c757d'
+    },
+    button_none: {
+        backgroundColor: '#fff'
     },
     text: {
         color: '#fff',
