@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
     button_negative: {
         backgroundColor: '#6c757d'
     },
+    button_none: {
+        backgroundColor: '#fff'
+    },
     text: {
         color: '#fff',
         fontWeight: 'bold'
