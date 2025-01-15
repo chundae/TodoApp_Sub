@@ -1,7 +1,13 @@
 import {StyleSheet, Text, View} from "react-native";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import Calendar from "../components/Calendar.tsx";
 import TodoList from "../components/TodoList.tsx";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
+
+type StackParam = {
+    Edit : { id: string };
+    Home: undefined;
+}
 
 const Mock = [
     { id: BigInt(1), createDate: "2025-01-01", content: "첫 번째 할 일" },
@@ -9,9 +15,7 @@ const Mock = [
     { id: BigInt(3), createDate: "2025-01-03", content: "세 번째 할 일" },
     { id: BigInt(4), createDate: "2025-01-04", content: "네 번째 할 일" },
 ];
-const handleEdit = (id: bigint) => {
-    console.log("수정 클릭:", id);
-};
+
 
 const handleItem = (id: bigint) => {
     console.log("아이템 클릭:", id);
@@ -28,10 +32,14 @@ const Home = () => {
     const today = new Date();
     const formattedToday = today.toISOString().split('T')[0];
     const [selectedDate, setSelectedDate] = useState(formattedToday);
+    const navigation = useNavigation<NavigationProp<StackParam>>()
 
-    const handler = () => {
-        console.log("button click");
-    }
+    const handleEdit = (id: bigint) => {
+        console.log("수정 클릭:", id);
+        const selectedTodo = Mock.find((item) => item.id === id);
+        console.log("findItem :" , selectedTodo)
+        navigation.navigate("Edit", { id: id.toString() });
+    };
 
     return (
         <View style={styles.container}>

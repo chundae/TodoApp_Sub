@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { FlatList, StyleSheet, View, Text } from "react-native";
 import TodoItem from "./TodoItem.tsx";
 import Button from "./Button.tsx";
+import {logger} from "react-native-reanimated/lib/typescript/logger";
+import CheckLog from "./CheckLog.tsx";
 
 interface ListProps {
     data: {
@@ -17,17 +19,21 @@ const handler = () => {
 }
 
 const TodoList = ({ data, onPressEdit, onPressItem }: ListProps) => {
+
+    useEffect(() => {
+        console.log("todoList data:", data)
+    }, [data]);
+
     return (
         <View style={styles.container}>
             <View style={styles.buttonContainer}>
                 <Button
-                    type={"primary"}
-                    text={"카테고리"}
+                    type={'primary'}
+                    text={"Todo +"}
                     onClick={handler}
                 />
-                <Button text={"하루마무리"} type={"none"} onClick={handler}/>
+                <Button text={"하루마무리"} type={'negative'} onClick={handler}/>
             </View>
-
             <FlatList
                 data={data}
                 keyExtractor={(item) => item.id.toString()}
@@ -41,7 +47,11 @@ const TodoList = ({ data, onPressEdit, onPressItem }: ListProps) => {
                     />
                 )}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
+                ListEmptyComponent={<Text>할 일이 없습니다.</Text>}
                 contentContainerStyle={styles.listContainer}
+                refreshing={false}
+                onRefresh={() => console.log("data check : ", data)}
+                showsVerticalScrollIndicator={false} // 스크롤바 숨기기
             />
         </View>
     );

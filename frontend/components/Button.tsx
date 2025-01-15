@@ -1,5 +1,6 @@
 import {GestureResponderEvent, TouchableOpacity, Text, StyleSheet} from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
+// import styles from "./buttonStyle.ts";
 
 interface ButtonProps {
     text: string,
@@ -9,6 +10,10 @@ interface ButtonProps {
 }
 
 const Button = ({text, type, onClick}: ButtonProps) => {
+
+    useEffect(() => {
+        console.log("Props : ", text, type, onClick)
+    }, []);
     return (
         <TouchableOpacity
             onPress={onClick}
