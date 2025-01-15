@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
+import {ReactNode} from "react";
 import {StyleSheet, View} from "react-native";
 
-interface HeaderProps{
+interface HeaderProps {
     leftChild?: ReactNode;
     rightChild?: ReactNode;
 }
 
-const Header = ({leftChild, rightChild} : HeaderProps) => {
+const Header = ({leftChild, rightChild}: HeaderProps) => {
     return (
         <View style={styles.header}>
             <View style={styles.headerLeft}>{leftChild}</View>
@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 30, // 좌우 간격
-        backgroundColor: "#f8f9fa", // 배경색 추가
     },
     headerLeft: {
         alignItems: "flex-start", // 왼쪽 정렬
@@ -35,3 +34,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-end", // 오른쪽 정렬
     },
 });
+
+
+export default Header;

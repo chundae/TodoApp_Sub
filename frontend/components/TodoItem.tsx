@@ -1,8 +1,6 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import BouncyCheckbox, {BouncyCheckboxHandle} from "react-native-bouncy-checkbox";
-import RNBounceable from '@freakycoder/react-native-bounceable';
-import {has} from "react-native-reanimated/lib/typescript/createAnimatedComponent/utils";
 
 interface TodoItemProps {
     id: bigint;
@@ -18,42 +16,45 @@ const TodoItem = ({ id, createDate, content, onPressEdit, onPressItem }: TodoIte
     const [isChecked, setIsChecked] = useState(false);
     const bouncyCheckRef = useRef<BouncyCheckboxHandle>(null);
 
+    useEffect(() => {
+        console.log("checkProps : ", {content, id, createDate, onPressItem,onPressEdit})
+    }, [content]);
+
 
     return (
         <View style={styles.container}>
-            {/* 좌측 아이콘 */}
-            <View style={styles.iconContainer}>
-            </View>
-ㅎ
+            <View style={styles.iconContainer}/>
+
             {/* 중앙 텍스트 */}
-            <TouchableOpacity style={styles.contentContainer} onPress={() => onPressItem(id)}>
+            <TouchableOpacity style={styles.contentContainer} onPress={() => onPressItem(BigInt(id))}>
                 <Text style={styles.contentText}>{content}</Text>
             </TouchableOpacity>
 
             {/* 우측 체크박스와 옵션 버튼 */}
             <View style={styles.actionContainer}>
-                <TouchableOpacity >
+                <TouchableOpacity>
                     <BouncyCheckbox
                         size={20}
                         textStyle={styles.textStyle}
                         iconImageStyle={styles.iconImageStyle}
                         fillColor={'#74AFD1'}
-                        unFillColor={'transparent'}
+                        unFillColor='transparent'
                         ref={bouncyCheckRef}
                         isChecked={isChecked}
                         onPress={(isChecked) => setIsChecked(isChecked)}
                     />
-
-
-
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.options}>
+                <TouchableOpacity style={styles.options} onPress={() => onPressEdit(id)}>
                     <Text style={styles.optionsText}>⋮</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 };
+
+
+
+
 
 
 const styles = StyleSheet.create({
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
     optionsText: {
         fontSize: 20,
         color: "#000",
+        fontFamily: "Arial",
     },
     //------
     iconImageStyle: {
