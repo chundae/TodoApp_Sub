@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 30, // 좌우 간격
-        backgroundColor: "#f8f9fa", // 배경색 추가
     },
     headerLeft: {
         alignItems: "flex-start", // 왼쪽 정렬
