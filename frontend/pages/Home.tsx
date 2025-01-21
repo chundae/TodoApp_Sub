@@ -10,32 +10,22 @@ import Button from "../components/Button.tsx";
 type StackParam = {
     Edit : { id: string };
     Home: undefined;
+    New : undefined;
 }
 
 const Mock = [
-    { id: BigInt(1), createDate: "2025-01-01", content: "첫 번째 할 일" },
-    { id: BigInt(2), createDate: "2025-01-02", content: "두 번째 할 일" },
+    { id: BigInt(1), createDate: "2025-01-21", content: "첫 번째 할 일" },
+    { id: BigInt(2), createDate: "2025-01-21", content: "두 번째 할 일" },
     { id: BigInt(3), createDate: "2025-01-03", content: "세 번째 할 일" },
     { id: BigInt(4), createDate: "2025-01-04", content: "네 번째 할 일" },
 ];
-
-
-const handleItem = (id: bigint) => {
-    console.log("아이템 클릭:", id);
-    console.log("날짜 및 일정 : ", loadItem(id) )
-};
-
-const loadItem = (id:bigint) => {
-    const item = Mock.find((item) => item.id === id);
-    return item ? item: "일정을 찾을수 없음";
-};
-
 
 const Home = () => {
     const today = new Date();
     const formattedToday = today.toISOString().split('T')[0];
     const [selectedDate, setSelectedDate] = useState(formattedToday);
     const [selectedId, setSelectedId] = useState<bigint|null>(null);
+    const [todoList, setTodoList] = useState(Mock);
     const navigation = useNavigation<NavigationProp<StackParam>>()
     const modalizeRef = useRef<Modalize>(null)
 
@@ -57,6 +47,20 @@ const Home = () => {
         console.log("findItem :" , selectedTodo)
         navigation.navigate("Edit" , {id:id.toString()})
     }
+
+    const filteredList = todoList.filter((item) => item.createDate === selectedDate);
+
+    const onCreate = () => {
+        navigation.navigate("New");
+    }
+
+    const onDelete = (id: bigint | null) => {
+        if (id === null) return; // ID가 없을 경우 바로 종료
+        const updatedList = todoList.filter((item) => item.id !== id); // ID와 다른 항목만 필터링
+        setTodoList(updatedList); // 상태 업데이트
+        closeModal(); // 모달 닫기
+        console.log(`ID ${id}가 삭제되었습니다.`);
+    };
 
     return (
         <View style={styles.container}>
@@ -85,9 +89,10 @@ const Home = () => {
             {/* 리스트 섹션 */}
             <View style={styles.listContainer}>
                 <TodoList
-                    data={Mock}
+                    data={filteredList}
                     onPressEdit={handleEdit}
-                    onPressItem={handleItem}
+                    onPressItem={handleEdit}
+                    onCreateItem={onCreate}
                 />
                 <Modalize
                     ref={modalizeRef}
@@ -100,7 +105,7 @@ const Home = () => {
                                 <Button type={"primary"} text={"수정하기"} onClick={() => { if (selectedId) EditLoad(selectedId) }} />
                             </View>
                             <View style={styles.buttonWrapper}>
-                                <Button type={"negative"} text={"삭제하기"} onClick={() => console.log("삭제")} />
+                                <Button type={"negative"} text={"삭제하기"} onClick={() => onDelete(selectedId)} />
                             </View>
                             <View style={styles.buttonWrapper}>
                                 <Button type={"finish"} text={"메모"} onClick={() => console.log("완료")} />
@@ -111,6 +116,7 @@ const Home = () => {
                         </View>
                     </View>
                 </Modalize>
+
             </View>
         </View>
     );
@@ -132,8 +138,9 @@ const styles = StyleSheet.create({
         flex: 1, // 나머지 공간을 리스트가 차지
         width: '100%', // 리스트 너비를 화면에 맞춤
         paddingHorizontal: 10, // 리스트 좌우 여백
-        paddingTop: '105%' // 캘린더와 리스트 간 간격 확보
+        paddingTop: '102%' // 캘린더와 리스트 간 간격 확보
     },
+    //modal
     modalContent: {
         flex: 1,
         padding: 20,

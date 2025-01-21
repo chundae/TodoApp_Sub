@@ -27,7 +27,8 @@ const Button = ({text, type, onClick}: ButtonProps) => {
 
 const styles = StyleSheet.create({
     button: {
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',

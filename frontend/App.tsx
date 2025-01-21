@@ -6,6 +6,7 @@ import {StyleSheet} from 'react-native';
 import Start from "./pages/Start.tsx";
 import Edit from "./pages/Edit.tsx";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
+import New from "./pages/New.tsx";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ const App = () => {
                     <Stack.Screen name="Start" component={Start} options={{headerShown: false}}/>
                     <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
                     <Stack.Screen name="Edit" component={Edit} options={{headerShown: false}}/>
+                    <Stack.Screen name="New" component={New} options={{headerShown:false}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </GestureHandlerRootView>
