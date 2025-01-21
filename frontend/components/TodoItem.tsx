@@ -20,13 +20,20 @@ const TodoItem = ({ id, createDate, content, onPressEdit, onPressItem }: TodoIte
         console.log("checkProps : ", {content, id, createDate, onPressItem,onPressEdit})
     }, [content]);
 
+    const onChecked =  (isChecked: boolean) => {
+        if(!isChecked){
+            setIsChecked(true)
+        }else{
+            setIsChecked(false)
+        }
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.iconContainer}/>
 
             {/* 중앙 텍스트 */}
-            <TouchableOpacity style={styles.contentContainer} onPress={() => onPressItem(BigInt(id))}>
+            <TouchableOpacity style={styles.contentContainer} onPress={() => onChecked(isChecked)}>
                 <Text style={styles.contentText}>{content}</Text>
             </TouchableOpacity>
 
@@ -41,10 +48,10 @@ const TodoItem = ({ id, createDate, content, onPressEdit, onPressItem }: TodoIte
                         unFillColor='transparent'
                         ref={bouncyCheckRef}
                         isChecked={isChecked}
-                        onPress={(isChecked) => setIsChecked(isChecked)}
+                        onPress={() => onChecked(isChecked)}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.options} onPress={() => onPressEdit(id)}>
+                <TouchableOpacity onPress={() => onPressEdit(id)}>
                     <Text style={styles.optionsText}>⋮</Text>
                 </TouchableOpacity>
             </View>
@@ -96,14 +103,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 
-    options: {
-        justifyContent: "center",
-        alignItems: "center",
-    },
     optionsText: {
         fontSize: 20,
         color: "#000",
         fontFamily: "Arial",
+        paddingTop: 5,
     },
     //------
     iconImageStyle: {
