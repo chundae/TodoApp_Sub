@@ -10,6 +10,7 @@ import Button from "../components/Button.tsx";
 type StackParam = {
     Edit : { id: string };
     Home: undefined;
+    New : undefined;
 }
 
 const Mock = [
@@ -58,6 +59,10 @@ const Home = () => {
         navigation.navigate("Edit" , {id:id.toString()})
     }
 
+    const onCreate = () => {
+        navigation.navigate("New");
+    }
+
     return (
         <View style={styles.container}>
             {/* 캘린더 섹션 */}
@@ -88,6 +93,7 @@ const Home = () => {
                     data={Mock}
                     onPressEdit={handleEdit}
                     onPressItem={handleItem}
+                    onCreateItem={onCreate}
                 />
                 <Modalize
                     ref={modalizeRef}

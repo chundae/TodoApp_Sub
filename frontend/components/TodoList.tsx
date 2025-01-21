@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View, Text } from "react-native";
 import TodoItem from "./TodoItem.tsx";
 import Button from "./Button.tsx";
 import {logger} from "react-native-reanimated/lib/typescript/logger";
-import CheckLog from "./CheckLog.tsx";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
 
 interface ListProps {
     data: {
@@ -13,12 +13,14 @@ interface ListProps {
     }[];
     onPressEdit: (id: bigint) => void; // 수정 버튼 클릭 핸들러
     onPressItem: (id: bigint) => void; // 아이템 클릭 핸들러
+    onCreateItem :() => void;
 }
 const handler = () => {
     console.log("button click");
 }
 
-const TodoList = ({ data, onPressEdit, onPressItem }: ListProps) => {
+const TodoList = ({ data, onPressEdit, onPressItem, onCreateItem }: ListProps) => {
+
 
     useEffect(() => {
         console.log("todoList data:", data)
@@ -30,7 +32,7 @@ const TodoList = ({ data, onPressEdit, onPressItem }: ListProps) => {
                 <Button
                     type={'primary'}
                     text={"Todo +"}
-                    onClick={handler}
+                    onClick={onCreateItem}
                 />
                 <Button text={"하루마무리"} type={'negative'} onClick={handler}/>
             </View>
