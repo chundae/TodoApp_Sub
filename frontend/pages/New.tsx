@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, TextInput, Button} from "react-native";
 import React, {useLayoutEffect, useRef, useState} from "react";
 import Header from "../components/Header.tsx";
 import {useTodoContext} from "../hooks/useTodoContext.tsx";
+import ListItem from "../components/ListItem.tsx";
 
 type PageParam = {
     Home :undefined;
@@ -45,13 +46,8 @@ const New = () => {
 
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="일정을 입력하세요"
-                value={inputValue}
-                onChangeText={setInputValue}
-                focusable={true}
-                />
+
+            <ListItem/>
         </View>
     );
 };
@@ -62,10 +58,21 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 50,
-        borderBottomWidth: 1,
-        paddingHorizontal: 10,
+        // borderBottomWidth: 1,
+        // paddingHorizontal: 10,
     }
 
 })
 
 export default New;
+
+
+/*
+            <TextInput
+                style={styles.input}
+                placeholder="일정을 입력하세요"
+                value={inputValue}
+                onChangeText={setInputValue}
+                focusable={true}
+                />
+ */
