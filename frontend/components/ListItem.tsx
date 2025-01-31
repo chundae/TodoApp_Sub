@@ -1,7 +1,8 @@
 import {NativeEventEmitter, NativeModules, StyleSheet, Text, TextInput, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"
 import DatePicker from "react-native-date-picker";
-import {useState} from "react";
+import React, {useState} from "react";
+import ItemOption from "./ItemOption.tsx";
 
 //props =  {icon : name} , {title : name}, {option}
 /*
@@ -17,59 +18,27 @@ color : #555고정
 완료 클릭시 -> home 에 추가
  */
 
-interface ItemProps {
-    text: string
-}
 
-const InputType = ({text} :ItemProps) => {
-    return (
-        <TextInput
-            style={styles.input}
-            placeholder={text}
-            focusable={true}
-        />
-    )
-}
-
-const DateType = () => {
-    const [date, setDate] = useState(new Date())
-    const [open, setOpen] = useState(false)
-
-    return(
-        <>
-            <Text onPress={() => setOpen(true)} style={styles.DateContainer}>{date.toLocaleDateString()}</Text>
-            <DatePicker
-                title={"Text"}
-                modal  // 모달 형태로 표시
-                open={open}
-                date={date}
-                mode="date"  // 날짜 선택 모드
-                minimumDate={new Date(2024, 0, 1)} // 2024년 1월 1일 이후만 선택 가능
-                maximumDate={new Date(2025, 12, 31)} // 2025년 12월 31일 이전만 선택 가능
-                locale="ko"  // 한국어 설정
-                onConfirm={(selectedDate) => {
-                    setOpen(false);
-                    setDate(selectedDate);
-                }}
-                onCancel={() => setOpen(false)}
-            />
-        </>
-    )
+interface ItemProps{
+    icon: string;
+    option: string;
+    title: string
 }
 
 
 
 
-const ListItem = ({text}:ItemProps) => {
-
-
+const ListItem = ({icon, option,title}:ItemProps) => {
     return(
         <View style={styles.container}>
             <View style={styles.iconSection} >
-                <Icon name={"pencil-outline"} size={28} color="#555" />
+                <Icon name={icon} size={28} color="#555" />
+            </View>
+            <View style={styles.titleSection}>
+                <Text>{title}</Text>
             </View>
             <View style={styles.TypeSection}>
-                <DateType></DateType>
+                <ItemOption option={option}/>
             </View>
         </View>
     )
@@ -117,8 +86,10 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         marginVertical: 2,
         fontWeight: "bold",
-
-
+    },
+    titleSection:{
+        fontSize:20,
+        paddingHorizontal:20
     }
 
 
