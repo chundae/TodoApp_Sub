@@ -25,3 +25,13 @@
 1. new 페이지 이동
 2. 빠른 Todo 생성 기능 구현중.. -> Button 클릭시 입력창 생성까지함.
 3. 일정 지우기 및 날짜별 일정 로딩 기능 생성
+
+## 25.01.22 진행상황
+1. 빠른 Todo 생성 기능 보류.(현재 제거)
+2. TodoContext 훅 생성해 props드릴링 방지
+3. New.tsx 생성 및 간단한 UI
+
+## 25.01.23 진행상황
+1. New Page UI용 Component 구현
+   - List / ListItem 구현
+   
