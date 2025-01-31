@@ -11,7 +11,7 @@ interface ListProps {
     }[];
     onPressEdit: (id: bigint) => void; // 수정 버튼 클릭 핸들러
     onPressItem: (id: bigint) => void; // 아이템 클릭 핸들러
-    onCreateItem: () => void;
+    nav: () => void
 }
 
 const handler = () => {
@@ -19,53 +19,8 @@ const handler = () => {
 }
 
 
-const TodoList = ({data, onPressEdit, onPressItem, onCreateItem}: ListProps) => {
-    const [quickItem, setQuickItem] = useState(""); //입력 필드
-    const [isQuickItemVisible, setIsQuickItemVisible] = useState(false);
+const TodoList = ({data, onPressEdit, onPressItem, nav}: ListProps) => {
 
-
-    const onCreateQuickItem = () => {
-        if (quickItem.trim() === "") return; //빈 입력 방지
-        const newItem = {
-            id: BigInt(Date.now()),
-            createDate: new Date().toISOString().split("T")[0], //오늘날짜
-            content: quickItem,
-        };
-        console.log(quickItem)
-        onPressItem(newItem.id);
-        setQuickItem("");
-        setIsQuickItemVisible(false)
-    };
-
-    const onAddButtonClick = () => {
-        setIsQuickItemVisible(true);
-    }
-
-    const AddButtonComponent = () => {
-        return (
-            <View style={styles.addButtonContainer}>
-                <TouchableOpacity style={styles.addButton} onPress={onAddButtonClick}>
-                    <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
-
-    const QuickItemComponent = () => {
-        return (
-            <View style={styles.quickAddContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="새로운 할 일을 입력하세요"
-                    value={quickItem}
-                    onChangeText={setQuickItem}
-                    onSubmitEditing={onCreateQuickItem} // 엔터키로 생성
-                    onBlur={() => setIsQuickItemVisible(false)}
-                    autoFocus={true}
-                />
-            </View>
-        )
-    }
 
 
     useEffect(() => {
@@ -78,7 +33,7 @@ const TodoList = ({data, onPressEdit, onPressItem, onCreateItem}: ListProps) => 
                 <Button
                     type={"primary"}
                     text={"Todo +"}
-                    onClick={onCreateItem}
+                    onClick={nav}
                 />
                 <Button text={"하루마무리"} type={"negative"} onClick={() => console.log("button click")} />
             </View>
@@ -100,9 +55,6 @@ const TodoList = ({data, onPressEdit, onPressItem, onCreateItem}: ListProps) => 
                 refreshing={false}
                 onRefresh={() => console.log("data check : ", data)}
                 showsVerticalScrollIndicator={false} // 스크롤바 숨기기
-                ListFooterComponent={
-                    isQuickItemVisible ? <QuickItemComponent /> : <AddButtonComponent />
-                } // 리스트 끝에 동적 렌더링
             />
         </View>
     );

@@ -1,33 +1,35 @@
 import {StyleSheet, Text, View} from "react-native";
-import {useContext, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import Calendar from "../components/Calendar.tsx";
 import TodoList from "../components/TodoList.tsx";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {Modalize} from "react-native-modalize";
 import Button from "../components/Button.tsx";
+import {useTodoContext} from "../hooks/useTodoContext.tsx";
 
 
 type StackParam = {
-    Edit : { id: string };
+    Edit: { id: string };
     Home: undefined;
-    New : undefined;
+    New: undefined;
 }
 
-const Mock = [
-    { id: BigInt(1), createDate: "2025-01-21", content: "첫 번째 할 일" },
-    { id: BigInt(2), createDate: "2025-01-21", content: "두 번째 할 일" },
-    { id: BigInt(3), createDate: "2025-01-03", content: "세 번째 할 일" },
-    { id: BigInt(4), createDate: "2025-01-04", content: "네 번째 할 일" },
-];
 
 const Home = () => {
-    const today = new Date();
-    const formattedToday = today.toISOString().split('T')[0];
-    const [selectedDate, setSelectedDate] = useState(formattedToday);
-    const [selectedId, setSelectedId] = useState<bigint|null>(null);
-    const [todoList, setTodoList] = useState(Mock);
+    const {state, dispatch} = useTodoContext();
     const navigation = useNavigation<NavigationProp<StackParam>>()
     const modalizeRef = useRef<Modalize>(null)
+
+    const formattedToday = new Date().toISOString().split('T')[0];
+    const [selectedDate, setSelectedDate] = useState(formattedToday); //선택 기본날짜를 한국기준으로 설정
+    //각일정에 대한 id값
+    const [selectedId, setSelectedId] = useState<bigint | null>(null);
+    //일정 로딩 목록 로딩을 위한 state
+
+
+    useEffect(() => {
+        console.log("현재 Todo 상태:", state.todos); // 디버깅 로그 추가
+    }, [state.todos]);
 
     const openModal = () => {
         modalizeRef.current?.open();
@@ -36,31 +38,31 @@ const Home = () => {
         modalizeRef.current?.close();
     }
 
-    const handleEdit = (id:bigint) => {
+    const handleEdit = (id: bigint) => {
         openModal()
         setSelectedId(id);
     };
 
-    const EditLoad = (id:bigint) => {
-        console.log("수정 클릭:", id);
-        const selectedTodo = Mock.find((item) => item.id === id);
-        console.log("findItem :" , selectedTodo)
-        navigation.navigate("Edit" , {id:id.toString()})
+    const EditLoad = (id: bigint) => {
+        // console.log("수정 클릭:", id);
+        // const selectedTodo = Mock.find((item) => item.id === id);
+        // console.log("findItem :", selectedTodo)
+        // navigation.navigate("Edit", {id: id.toString()})
     }
 
-    const filteredList = todoList.filter((item) => item.createDate === selectedDate);
+    const filteredList = state.todos.filter((item) => item.createDate === selectedDate);
 
-    const onCreate = () => {
+
+    const NavNewPage = () => {
         navigation.navigate("New");
     }
 
-    const onDelete = (id: bigint | null) => {
-        if (id === null) return; // ID가 없을 경우 바로 종료
-        const updatedList = todoList.filter((item) => item.id !== id); // ID와 다른 항목만 필터링
-        setTodoList(updatedList); // 상태 업데이트
-        closeModal(); // 모달 닫기
-        console.log(`ID ${id}가 삭제되었습니다.`);
+    const onDelete = (id: bigint) => {
+        dispatch({type: "DELETE",  payload: id});
+        closeModal();
+        navigation.preload();
     };
+
 
     return (
         <View style={styles.container}>
@@ -92,26 +94,28 @@ const Home = () => {
                     data={filteredList}
                     onPressEdit={handleEdit}
                     onPressItem={handleEdit}
-                    onCreateItem={onCreate}
+                    nav={NavNewPage}
                 />
                 <Modalize
                     ref={modalizeRef}
                     snapPoint={300}
                     modalHeight={500}
-                    >
+                >
                     <View style={styles.modalContent}>
                         <View style={styles.gridContainer}>
                             <View style={styles.buttonWrapper}>
-                                <Button type={"primary"} text={"수정하기"} onClick={() => { if (selectedId) EditLoad(selectedId) }} />
+                                <Button type={"primary"} text={"수정하기"} onClick={() => {
+                                    if (selectedId) EditLoad(selectedId)
+                                }}/>
                             </View>
                             <View style={styles.buttonWrapper}>
-                                <Button type={"negative"} text={"삭제하기"} onClick={() => onDelete(selectedId)} />
+                                <Button type={"negative"} text={"삭제하기"} onClick={() => onDelete(1n)}/>
                             </View>
                             <View style={styles.buttonWrapper}>
-                                <Button type={"finish"} text={"메모"} onClick={() => console.log("완료")} />
+                                <Button type={"finish"} text={"메모"} onClick={() => console.log("완료")}/>
                             </View>
                             <View style={styles.buttonWrapper}>
-                                <Button type={"next"} text={"내일하기"} onClick={closeModal} />
+                                <Button type={"next"} text={"내일하기"} onClick={closeModal}/>
                             </View>
                         </View>
                     </View>
@@ -161,7 +165,6 @@ const styles = StyleSheet.create({
         height: "50%"
     },
 });
-
 
 
 export default Home;
