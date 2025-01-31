@@ -47,7 +47,10 @@ const New = () => {
     return (
         <View style={styles.container}>
 
-            <ListItem text={"test"}/>
+            <ListItem icon={"pencil-outline"} option={"input"} title={"일정명"}/>
+            <ListItem icon={"grid-outline"} option={"default"} title={"카테고리"}/>
+            <ListItem icon={"calendar-outline"} option={"date"} title={"마감일"}/>
+            <ListItem icon={"time-outline"} option={"time"} title={"마감시간"}/>
         </View>
     );
 };
