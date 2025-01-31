@@ -47,20 +47,16 @@ const New = () => {
     return (
         <View style={styles.container}>
 
-            <ListItem/>
+            <ListItem text={"test"}/>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container:{
-        flex:1
+        flex:1,
+        backgroundColor: "#fff"
     },
-    input: {
-        height: 50,
-        // borderBottomWidth: 1,
-        // paddingHorizontal: 10,
-    }
 
 })
 
