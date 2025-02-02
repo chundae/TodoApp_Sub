@@ -22,13 +22,15 @@ color : #555고정
 interface ItemProps{
     icon: string;
     option: string;
-    title: string
+    title: string;
+    value: string;
+    onChange: (text:any)=>void;
 }
 
 
 
 
-const ListItem = ({icon, option,title}:ItemProps) => {
+const ListItem = ({icon, option,title, value, onChange}:ItemProps) => {
     return(
         <View style={styles.container}>
             <View style={styles.iconSection} >
@@ -38,7 +40,7 @@ const ListItem = ({icon, option,title}:ItemProps) => {
                 <Text>{title}</Text>
             </View>
             <View style={styles.TypeSection}>
-                <ItemOption option={option}/>
+                <ItemOption option={option} value={value} onChange={onChange}/>
             </View>
         </View>
     )
