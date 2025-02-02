@@ -35,3 +35,12 @@
 1. New Page UI용 Component 구현
    - List / ListItem 구현
    
+## 25.02.02 진행상황
+1. Route 설정 변경
+   - New/Edit 라우트 제거
+   - CreateEdit에서 분류되도록 설정
+   - PageParam.tsx 추가
+2. 수정페이지 설정
+   - id를 통해 데이터 조회 및 할당
+   - ListItem에 할당되어있는 각각 컴포넌트 props수정 (아직 수정중)
+   - 수정된 데이터 적용된것은 아직 확인 못함
