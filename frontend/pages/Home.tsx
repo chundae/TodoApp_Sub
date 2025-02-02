@@ -9,9 +9,11 @@ import {useTodoContext} from "../hooks/useTodoContext.tsx";
 
 
 type StackParam = {
-    Edit: { id: string };
     Home: undefined;
-    New: undefined;
+    CreateEdit: {
+        mode: "new" | "edit";
+        id: string | undefined;
+    };
 }
 
 
@@ -43,24 +45,25 @@ const Home = () => {
         setSelectedId(id);
     };
 
-    const EditLoad = (id: bigint) => {
-        // console.log("수정 클릭:", id);
-        // const selectedTodo = Mock.find((item) => item.id === id);
-        // console.log("findItem :", selectedTodo)
-        // navigation.navigate("Edit", {id: id.toString()})
-    }
 
     const filteredList = state.todos.filter((item) => item.createDate === selectedDate);
 
 
+    const NavToCreate_Edit = (mode: "new" | "edit", id?: bigint) => {
+        navigation.navigate("CreateEdit", {mode, id: id?.toString()});
+    }
+
     const NavNewPage = () => {
-        navigation.navigate("New");
+        NavToCreate_Edit("new");
+    }
+    const NavEditPage = (id: bigint) => {
+        NavToCreate_Edit("edit", id);
     }
 
     const onDelete = (id: bigint) => {
-        dispatch({type: "DELETE",  payload: id});
+        dispatch({type: "DELETE", payload: id});
         closeModal();
-        navigation.preload();
+        navigation.navigate("Home");
     };
 
 
@@ -105,7 +108,7 @@ const Home = () => {
                         <View style={styles.gridContainer}>
                             <View style={styles.buttonWrapper}>
                                 <Button type={"primary"} text={"수정하기"} onClick={() => {
-                                    if (selectedId) EditLoad(selectedId)
+                                    if (selectedId) NavEditPage(selectedId)
                                 }}/>
                             </View>
                             <View style={styles.buttonWrapper}>
