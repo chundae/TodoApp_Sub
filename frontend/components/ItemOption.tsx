@@ -6,17 +6,19 @@ import TimeType from "./TimeType.tsx";
 
 interface ItemOptionProps {
     option: string;
+    value?: string;
+    onChange?: (text:string) => void;
 }
 
 
-const ItemOption = ({ option} : ItemOptionProps) => {
+const ItemOption = ({ option, value, onChange} : ItemOptionProps) => {
     switch (option) {
         case "input":
-            return <TextInputType  text={"dfdf"}/>
+            return <TextInputType  value={value || ""} onChange={onChange}/>
         case "date":
-            return <DateType />;
+            return <DateType value={value} onChange={onChange}/>;
         case "time":
-            return <TimeType />;
+            return <TimeType value={value} onChange={onChange}/>;
         default:
             return <Text>옵션 없음</Text>;
     }

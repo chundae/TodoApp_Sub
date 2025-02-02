@@ -2,7 +2,12 @@ import {useState} from "react";
 import {StyleSheet, Text} from "react-native";
 import DatePicker from "react-native-date-picker";
 
-const DateType = () => {
+interface DateProps {
+    value?: string;
+    onChange?: (text:string) => void;
+}
+
+const DateType = ({value, onChange} : DateProps) => {
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
 

@@ -1,15 +1,24 @@
 import {StyleSheet, TextInput} from "react-native";
 
 interface ItemProps {
-    text: string
+    value: string
+    onChange?: (text:string) => void
 }
 
- const TextInputType = ({text} :ItemProps) => {
+ const TextInputType = ({value, onChange} :ItemProps) => {
+    let data : string = "";
+    if(value) {
+        data = value;
+    }else{
+        data = "일정을 입력하세요."
+    }
     return (
         <TextInput
             style={styles.input}
-            placeholder={text}
+            placeholder={data}
             focusable={true}
+            value={data}
+            onChangeText={onChange}
         />
     )
 }
